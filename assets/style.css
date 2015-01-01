@@ -1,0 +1,200 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	font-family: Tahoma, Helvetica, Arial, Sans-Serif;
+	 -moz-user-select     : none;
+	 -khtml-user-select   : none;
+	 -webkit-user-select  : none;
+	 -o-user-select       : none;
+	 user-select          : none;
+}
+
+.player_form {
+	height: auto;
+	padding: 20px;
+}
+
+.player_form form {
+	padding: 20px;
+	background-color: #eee;
+	border-radius: 5px;
+}
+
+.player_form .player {
+	display: block;
+	margin-bottom: 10px;
+}
+
+.player_form .player label {
+	display: block;
+}
+
+.player_form .add_player {
+	display: block;
+	margin-top: 20px;
+	background-color: #0000ff;
+	color: #fff;
+	border: 0px;
+	padding: 10px;
+	width: 100px;
+}
+
+.player_form .submit {
+	display: block;
+	margin-top: 20px;
+	background-color: #009900;
+	color: #fff;
+	border: 0px;
+	padding: 10px;
+	width: 100px;
+}
+
+.scoreboard {
+	width: 100%;
+	height: 100%;
+}
+
+.scoreboard table {
+	width: 100%;
+	height: 100%;
+	border-spacing: 0px;
+  border-collapse: collapse;
+}
+
+.scoreboard table tr.even {
+	background-color: #eee;
+}
+
+.scoreboard table th {
+	background-color: #474747;
+	padding: 10px;
+	color: #fff;
+	font-weight: 300;
+}
+
+.scoreboard .name {
+	font-size: 18px;
+	text-shadow: 2px 2px 0px #000;
+	color: #fff;
+	font-weight: 300;
+}
+
+.scoreboard .percentage {
+	font-size: 12px;
+	color: lightyellow;
+}
+
+.scoreboard .player_info {
+	font-size: 12px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.scoreboard .player_info .played {
+	color: lightblue;
+}
+
+.scoreboard .player_info .wins {
+	color: lightgreen;
+}
+
+.scoreboard .player_info .losses {
+	color: red;
+}
+
+.scoreboard table td {
+	text-align: center;
+	min-width: 100px;
+}
+
+.scoreboard .score-label {
+	width: 50px;
+	border-left: 1px solid #000;
+	border-right: 1px solid #000;
+}
+
+.scoreboard td.score-label {
+	cursor: pointer;
+}
+
+.scoreboard td.score-label:hover {
+	background-color: #dddeee;
+}
+
+.scoreboard th.score-label {
+	background-color: #333;
+}
+
+.scoreboard .score-area {
+	cursor: pointer;
+	text-align: left;
+	padding-left: 10px;
+}
+
+.scoreboard .score-area:hover {
+	background-color: #dddeee;
+}
+
+.scoreboard .done {
+	background-color: #C1FFC1;
+	border-right: 0px;
+}
+
+.scoreboard .done:hover {
+	background-color: #C1FFC1;
+}
+
+.scoreboard .footer {
+	background-color: #333;
+	text-align: center;
+}
+
+a.button {
+	-moz-box-shadow: inset 0 0 0 1px #63ad0d;
+  -webkit-box-shadow: inset 0 0 0 1px #63ad0d;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  background: #eee;
+  background: -webkit-gradient(linear, 0 0, 0 bottom, from(#eee), to(#e2e2e2));
+  background: -moz-linear-gradient(#eee, #e2e2e2);
+  background: linear-gradient(#eee, #e2e2e2);
+  border: solid 1px #d0d0d0;
+  border-bottom: solid 3px #b2b1b1;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1px #f5f5f5;
+  color: #555;
+  display: inline-block;
+  font: bold 14px Arial, Helvetica, Clean, sans-serif;
+  padding: 10px 20px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0 1px 0 #fafafa;
+  width: 150px;
+}
+
+a.button:hover {
+  background: #e4e4e4;
+  background: -webkit-gradient(linear, 0 0, 0 bottom, from(#e4e4e4), to(#ededed));
+  background: -moz-linear-gradient(#e4e4e4, #ededed);
+  background: linear-gradient(#e4e4e4, #ededed);
+  border: solid 1px #c2c2c2;
+  border-bottom: solid 3px #b2b1b1;
+  box-shadow: inset 0 0 0 1px #efefef;
+}
+    
+a.button:active {
+  background: #dfdfdf;
+  background: -webkit-gradient(linear, 0 0, 0 bottom, from(#dfdfdf), to(#e3e3e3));
+  background: -moz-linear-gradient(#dfdfdf, #e3e3e3);
+  background: linear-gradient(#dfdfdf, #e3e3e3);
+  border: solid 1px #959595;
+  box-shadow: inset 0 10px 15px 0 #c4c4c4;
+  top:2px;
+}
