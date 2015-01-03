@@ -1,7 +1,7 @@
 $( document ).ready(function() {
 
 	var players_total = 1;
-	var block_click = false;
+	var game_over = false;
 
 	// on button .add_player click
 	$('.add_player').click(function() {
@@ -25,12 +25,6 @@ $( document ).ready(function() {
 
 	// on .score-area click
 	$('.score-area').click(function() {
-		// check if we can click
-		if (block_click) {
-			alert('The game is already over.');
-			return;
-		}
-
 		// set cross
 		var cross_token = '&#10006;&nbsp;';
 
@@ -76,13 +70,24 @@ $( document ).ready(function() {
 		scoreboard[ player ][ score ] = 1;
 		// check if all areas are filled
 		if (isFinished(scoreboard[ player ])) {
-			// block further clicks
-			block_click = true;
-			// update the log
-			$.post( "log.php", { game: 'end', players: players, winner: player } );
-			// show a dialog
-			if (confirm(player + ' won the game. Want to start a new game?')) {
-				location.reload();
+			// only show a dialog if the number of players is less then 2
+			if (countPlayers(scoreboard) < 2) {
+				jqueryConfirm('Game over', 'You completed the list. Note this does not get recorded because you are playing alone.');
+			// otherwise, update the playerdata and show a dialog
+			} else {
+				// check if the game is already over, if not update playerdata
+				if (!game_over) {
+					// update the log
+					$.post( "log.php", { game: 'end', players: players, winner: player } );
+					// show a dialog
+					jqueryConfirm('Game over', player + ' won the game.');
+					// set finished so the game can still be played, but won't recorded anymore
+					game_over = true;
+				// only show a dialog
+				} else {
+					// show an alert if another player finishes
+					jqueryConfirm('Game over', player + ' completed the list. Note this does not get recorded because another player finished first.');
+				}
 			}
 		}
 	}
@@ -98,9 +103,42 @@ $( document ).ready(function() {
 		for (var i in player_scoreboard) {
 			if (player_scoreboard[i] == 0) {
 				finished = false;
+				break;
 			}
 		}
 		return finished;
+	}
+
+	function countPlayers(players) {
+		var count = 0;
+		for (var i in players) {
+			count++;
+		}
+		return count;
+	}
+
+	function jqueryConfirm(title, message) {
+    $("#dialog").html(message);
+
+    // Define the Dialog and its properties.
+    $("#dialog").dialog({
+      resizable: false,
+      modal: true,
+      title: title,
+      buttons: {
+        "Start new game": function () {
+          $(this).dialog('close');
+          location.reload();
+        },
+        "Continue playing": function () {
+          $(this).dialog('close');
+        },
+        "Back to form": function () {
+          $(this).dialog('close');
+          location.href = 'cricket.php';
+        }
+      }
+    });
 	}
 
 });

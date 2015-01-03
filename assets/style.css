@@ -15,9 +15,14 @@ body {
 	 user-select          : none;
 }
 
+h1 {
+	margin: 0px;
+}
+
 .player_form {
 	height: auto;
 	padding: 20px;
+	font-size: 14px;
 }
 
 .player_form form {

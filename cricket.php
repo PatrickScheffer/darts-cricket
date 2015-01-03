@@ -2,9 +2,11 @@
 <html>
 <head>
 	<title>Cricket</title>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 	<link rel="stylesheet" type="text/css" href="assets/style.css" />
-	<script src="assets/jquery-1.11.2.min.js" language="javascript"></script>
-	<script src="assets/script.js" language="javascript"></script>
+	<script src="assets/script.js"></script>
 </head>
 <body>
 
@@ -14,6 +16,23 @@ if (!isset($_GET['players']) || empty($_GET['players'])) {
 
 	<div class="player_form">
 		<form method="GET">
+			<h1>Cricket</h1>
+			<p>
+				The goal of cricket is to be the first player to open or close all the cricket numbers.
+			</p>
+			<p>
+				This version covers the numbers from 10 to 20 plus the bull and features no points. Each number must be hit three times to 'close' it.
+			</p>
+			<p>
+				Doubles count as two hits and triples as three. The green ring around the bull (single bull) counts as one, the red core (double bull/bullseye) counts as two.
+			</p>
+			<hr>
+			<p>
+				<strong>Add players to start. The number of games played, won and lost will be recorded by the player's name.</strong>
+			</p>
+			<p>
+				<i>Note: Single player games don't get recorded.</i>
+			</p>
 			<div class="player_fields">
 				<div class="player">
 					<label for="player_1">Player 1</label>
@@ -80,6 +99,7 @@ if (!isset($_GET['players']) || empty($_GET['players'])) {
 	$js = '<script language="javascript">';
 	$js .= 'var scoreboard = new Array();';
 	$js .= 'var players = new Array();';
+	$js .= 'var log = false;';
 	foreach ($players as $player_key => $player_value) {
 		$js .= 'players[' . $player_key . '] = "' . $player_value . '";';
 		$js .= 'scoreboard["' . $player_value . '"] = new Array();';
@@ -87,17 +107,23 @@ if (!isset($_GET['players']) || empty($_GET['players'])) {
 			$js .= 'scoreboard["' . $player_value . '"]["' . $score_value . '"] = 0;';
 		}
 	}
+	$js .= 'if (log) {';
 	$js .= '$.post( "log.php", { game: "start", players: players } );';
+	$js .= '}';
 	$js .= '</script>';
 
 	// add headers
 	$table_header .= '<tr>';
 	foreach ($players as $player) {
+		$percent = 0;
+		if ($info[ $player ]['played'] > 0) {
+			$percent = ceil(($info[ $player ]['wins']/$info[ $player ]['played'])*100);
+		}
 		$table_header .= '
 			<th class="score-label">Score</th>
 			<th>
 				<span class="name">' . $player . '</span>
-				<span class="percentage">(' . ceil(($info[ $player ]['wins']/$info[ $player ]['played'])*100) . '%)</span>
+				<span class="percentage">(' . $percent . '%)</span>
 				<div class="player_info">
 					<span class="played">Played: ' . $info[ $player ]['played'] . '</span>
 					 / <span class="wins">Wins: ' . $info[ $player ]['wins'] . '</span>
@@ -137,6 +163,7 @@ if (!isset($_GET['players']) || empty($_GET['players'])) {
 	';
 	?>
 
+	<div id="dialog"></div>
 	<div class="scoreboard noSelect">
 		<table>
 			<thead>
