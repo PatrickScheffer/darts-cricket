@@ -66,7 +66,7 @@ if (!isset($_GET['players']) || empty($_GET['players'])) {
 
 	if (empty($players)) {
 		print '<a href="cricket.php">Please add some players</a>';
-		header('Location: cricket.php');
+		header('Location: index.php');
 		exit;
 	}
 
@@ -156,7 +156,7 @@ if (!isset($_GET['players']) || empty($_GET['players'])) {
 	$table_body .= '
 		<tr>
 			<td colspan="' . (count($players) * 2) . '" class="footer">
-				<a href="cricket.php" class="button back">Back to form</a>
+				<a href="index.php" class="button back">Back to form</a>
 				<a href="javascript:location.reload()" class="button new">New game</a>
 			</td>
 		</tr>

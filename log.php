@@ -1,4 +1,5 @@
 <?php
+$log = FALSE;
 $logfile = 'cricket.log';
 $player_data_file = 'players.data';
 $record = '';
@@ -56,7 +57,8 @@ if (isset($_POST['game']) && $_POST['game'] == 'start' && isset($_POST['players'
 	file_put_contents($player_data_file, serialize($player_data));
 }
 
-if (isset($record) && !empty($record)) {
+// write log if enabled and not empty
+if ($log && isset($record) && !empty($record)) {
 	file_put_contents($logfile, $record, FILE_APPEND);
 }
 ?>

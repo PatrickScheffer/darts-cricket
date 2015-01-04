@@ -135,7 +135,7 @@ $( document ).ready(function() {
         },
         "Back to form": function () {
           $(this).dialog('close');
-          location.href = 'cricket.php';
+          location.href = 'index.php';
         }
       }
     });
