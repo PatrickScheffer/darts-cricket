@@ -65,7 +65,7 @@ if (!isset($_GET['players']) || empty($_GET['players'])) {
 	}
 
 	if (empty($players)) {
-		print '<a href="cricket.php">Please add some players</a>';
+		print '<a href="index.php">Please add some players</a>';
 		header('Location: index.php');
 		exit;
 	}
