@@ -98,3 +98,56 @@ function post($key = '') {
 
 	return $params;
 }
+
+/**
+ * Add a log to the database and clear old logs.
+ */
+function add_log($subject, $message) {
+	global $config;
+
+	// Connect to the database.
+	$db = new medoo($config['database']);
+
+	// Insert the new log.
+	$db->insert('log', array(
+		'subject' => htmlspecialchars($subject, ENT_QUOTES),
+		'message' => htmlspecialchars($message, ENT_QUOTES),
+		'date' => time(),
+	));
+
+	// Check if the log count is over 500.
+	if ($db->count('log') > 500) {
+		// Get the oldest log (with the lowest id).
+		$oldest_log = $db->min('log', 'id');
+		// Delete it.
+		$db->delete('log', array(
+			'AND' => array(
+				'id' => $oldest_log,
+			),
+		));
+	}
+}
+
+function load_template($file = '', $regions = array()) {
+	global $config;
+
+	$output = '';
+
+	if (empty($file) || empty($config['template_dir'])) {
+		add_log('template', 'No file or templates dir found.');
+		return FALSE;
+	}
+
+	$path = $config['template_dir'] . '/' . $file . '.tpl.php';
+	if (!file_exists($path)) {
+		add_log('template', $path . ' not found.');
+		return FALSE;
+	}
+
+	ob_start();
+	include($path);
+	$output = ob_get_contents();
+	ob_end_clean();
+
+	return $output;
+}

@@ -50,32 +50,3 @@ switch (post('action')) {
 
 // Change the ajax token add put it in a cookie so Javascript can read it.
 setcookie('ajax_token', ajax_token(TRUE), 0, '/', $_SERVER['HTTP_HOST']);
-
-/**
- * Add a log to the database and clear old logs.
- */
-function add_log($subject, $message) {
-	global $config;
-
-	// Connect to the database.
-	$db = new medoo($config['database']);
-
-	// Insert the new log.
-	$db->insert('log', array(
-		'subject' => htmlspecialchars($subject, ENT_QUOTES),
-		'message' => htmlspecialchars($message, ENT_QUOTES),
-		'date' => time(),
-	));
-
-	// Check if the log count is over 500.
-	if ($db->count('log') > 500) {
-		// Get the oldest log (with the lowest id).
-		$oldest_log = $db->min('log', 'id');
-		// Delete it.
-		$db->delete('log', array(
-			'AND' => array(
-				'id' => $oldest_log,
-			),
-		));
-	}
-}

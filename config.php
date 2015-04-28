@@ -3,6 +3,8 @@ session_start();
 
 $config = array();
 
+$config['template_dir'] = 'templates';
+
 // Database configuration.
 $config['database'] = array(
 	'database_type' => 'mysql',
