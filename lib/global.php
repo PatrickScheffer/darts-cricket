@@ -133,12 +133,12 @@ function load_template($file = '', $regions = array()) {
 
 	$output = '';
 
-	if (empty($file) || empty($config['template_dir'])) {
-		add_log('template', 'No file or templates dir found.');
+	if (empty($file)) {
+		add_log('template', 'No file found.');
 		return FALSE;
 	}
 
-	$path = $config['template_dir'] . '/' . $file . '.tpl.php';
+	$path = TEMPLATES_DIR . '/' . $file . '.tpl.php';
 	if (!file_exists($path)) {
 		add_log('template', $path . ' not found.');
 		return FALSE;
@@ -150,4 +150,50 @@ function load_template($file = '', $regions = array()) {
 	ob_end_clean();
 
 	return $output;
+}
+
+function load_page() {
+	$content = '';
+	$plugins = load_plugins();
+	foreach ($plugins as $plugin) {
+		if (!empty($plugin['paths']) && in_array($_SERVER['REQUEST_URI'], $plugin['paths'])) {
+			if (!empty($plugin['callback'])) {
+				$content = call_user_func($plugin['callback']);
+			}
+		}
+	}
+	return $content;
+}
+
+function load_plugins() {
+	if (!file_exists(PLUGINS_DIR)) {
+		add_log('plugins', PLUGINS_DIR . ' not found.');
+		return FALSE;
+	}
+
+	foreach (scandir(PLUGINS_DIR) as $file) {
+	  if ('.' === $file) continue;
+	  if ('..' === $file) continue;
+
+	  include_once(PLUGINS_DIR . '/' . $file);
+	}
+
+	return register_plugins();
+}
+
+function register_plugins() {
+	$plugins = array();
+	$functions = get_defined_functions();
+
+	if (empty($functions['user'])) {
+		return FALSE;
+	}
+
+	foreach ($functions['user'] as $function) {
+		if (substr($function, -16) == '_register_plugin') {
+			$plugins[] = call_user_func($function);
+		}
+	}
+
+	return $plugins;
 }

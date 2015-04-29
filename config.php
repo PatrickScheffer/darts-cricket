@@ -1,9 +1,11 @@
 <?php
 session_start();
 
-$config = array();
+define('BASE_DIR', '/darts/cricket/');
+define('TEMPLATES_DIR', 'templates');
+define('PLUGINS_DIR', 'plugins');
 
-$config['template_dir'] = 'templates';
+$config = array();
 
 // Database configuration.
 $config['database'] = array(
